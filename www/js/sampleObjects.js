@@ -103,7 +103,7 @@ var STAPPS_SAMPLE_FAVORITE = {
 
   var STAPPS_SAMPLE_EVENT = {
     "type": "Date",
-    "_id": "favorite",
+    "_id": "event",
     "name": "Prozessmodelle der Bauinformatik",
     "startDate": "2016-04-20T00:00:00.000Z",
     "endDate": "2016-07-20T00:00:00.000Z",

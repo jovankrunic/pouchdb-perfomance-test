@@ -70,9 +70,14 @@
           </span>
         </a>
 
-        <a class="item item-icon-left" ng-click="vm.getAllBirthdays()">
+        <a class="item item-icon-left" ng-click="vm.getAllBirthdays('favorite')">
           <i class="icon ion-ios-book"></i>
-          Read all entries
+          Read favorites
+        </a>
+
+        <a class="item item-icon-left" ng-click="vm.getAllBirthdays('event')">
+          <i class="icon ion-ios-book"></i>
+          Read events
         </a>
 
         <!-- <a class="item item-icon-left" ng-click="">

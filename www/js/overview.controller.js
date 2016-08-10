@@ -32,10 +32,10 @@ function OverviewController($scope, $ionicModal, $ionicPlatform, birthdayService
 		$scope.modal = modal;
 	});
 
-	vm.getAllBirthdays = function () {
+	vm.getAllBirthdays = function (type) {
 		// Get all birthday records from the database.
 		timeStart();
-		birthdayService.getAllBirthdays().then(function(birthdays) {
+		birthdayService.getAllBirthdays(type).then(function(birthdays) {
 			timeCalculate();
 			vm.quantity = birthdays.length;
 			vm.birthdays = birthdays;

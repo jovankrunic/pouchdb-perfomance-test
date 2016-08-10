@@ -18,7 +18,7 @@
 
         function initDB() {
             // Creates the database or opens if it already exists
-            _db = new PouchDB('stapps', {adapter: 'websql'});
+            _db = new PouchDB('stapps', {adapter: 'idb'});
             _db.info().then(console.log.bind(console));
         };
 
@@ -46,6 +46,7 @@
 
           for (i=1; i<=n; i++) {
             type = types[Math.floor(Math.random() * types.length)];
+            console.log(type);
             promises.push(addRandomBirthday(generateRandomItem(type)));
           }
           return $q.all(promises);
@@ -59,7 +60,8 @@
             return $q.when(_db.remove(birthday));
         };
 
-        function getAllBirthdays() {
+        function getAllBirthdays(prefix) {
+            if (angular.isUndefined(prefix)) {
                 return $q.when(_db.allDocs({ include_docs: true}))
                           .then(function(docs) {
 
@@ -78,6 +80,27 @@
                             console.log(_birthdays);
                            return _birthdays;
                          });
+            }
+            else {
+              return $q.when(_db.allDocs({startkey: prefix, endkey: prefix + '\uffff', include_docs: true}))
+                        .then(function(docs) {
+
+                          // Each row has a .doc object and we just want to send an
+                          // array of birthday objects back to the calling controller,
+                          // so let's map the array to contain just the .doc objects.
+                          _birthdays = docs.rows.map(function(row) {
+                              // Dates are not automatically converted from a string.
+                              // row.doc.Date = new Date(row.doc.Date);
+                              return row.doc;
+                          });
+
+                          // Listen for changes on the database.
+                          // _db.changes({ live: true, since: 'now', include_docs: true})
+                          //    .on('change', onDatabaseChange);
+                          console.log(_birthdays);
+                         return _birthdays;
+                       });
+          }
         };
 
         function onDatabaseChange(change) {
